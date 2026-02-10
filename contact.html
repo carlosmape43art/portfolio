@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!doctype html> 
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,49 +18,67 @@
   <body>
     <main class="page">
       <!-- CONTACT -->
-      <section class="hero" aria-label="Fotografías">
+      <section class="hero" aria-label="Contacto">
         <h1 class="heading option1">Contacto</h1>
         <button
           class="scroll-indicator"
           type="button"
-          aria-label="Desplazar hacia la galería de fotografías"
-          data-target="#galeria-fotos"
+          aria-label="Desplazar hacia el formulario de contacto"
+          data-target="#contacto"
         >
           <span class="scroll-indicator__label">Scroll</span>
           <span class="scroll-indicator__icon"></span>
         </button>
       </section>
 
-      <!-- INTRO -->
+      <!-- FORMULARIO -->
       <section id="contacto" class="contact-section">
         <div class="container">
-            <div class="contact-content">
-                <form class="contact-form">
-                    <input type="text" placeholder="Tu nombre" required>
-                    <input type="email" placeholder="Tu correo" required>
-                    <textarea placeholder="Tu mensaje" rows="6" required></textarea>
-                    <button type="submit" class="contact-submit-btn">Enviar Mensaje</button>
+          <div class="contact-content">
 
-                </form>
-                
-                <div class="contact-info">
-                    <h3>Información de Contacto</h3>
-                    <p><strong>Email:</strong> tu@email.com</p>
-                    <p><strong>Teléfono:</strong> +34 XXX XXX XXX</p>
-                    <p><strong>Ubicación:</strong> Tu Ciudad</p>
-                </div>
-                
+            <!-- FORMULARIO STATICFORMS -->
+            <form 
+              class="contact-form" 
+              action="https://api.staticforms.dev/submit" 
+              method="POST"
+            >
+              <!-- API KEY -->
+              <input type="hidden" name="apiKey" value="sf_lb8d5m46ddmc0i2f460b7f05">
+              <!-- Asunto opcional -->
+              <input type="hidden" name="subject" value="Nuevo mensaje desde mi web">
+              <!-- Redirección tras enviar -->
+              <input type="hidden" name="redirectTo" value="https://robertomape.github.io/portfoliocarlos/gracias.html">
+
+              <label>Nombre:</label>
+              <input type="text" name="name" placeholder="Tu nombre" required>
+
+              <label>Email:</label>
+              <input type="email" name="email" placeholder="Tu correo" required>
+
+              <label>Mensaje:</label>
+              <textarea name="message" placeholder="Tu mensaje" rows="6" required></textarea>
+
+              <button type="submit" class="contact-submit-btn">Enviar Mensaje</button>
+            </form>
+
+            <!-- INFORMACIÓN DE CONTACTO -->
+            <div class="contact-info">
+              <h3>Información de Contacto</h3>
+              <p><strong>Email:</strong> carlosmape43@gmail.com</p>
+              <p><strong>Ubicación:</strong> Madrid, España</p>
             </div>
-            
-        </div>
-        <div class="back-to-top">
-            <a href="index.html" class="back-btn">Volver al inicio</a>
-          </div>
 
-    </section>
+          </div>
+        </div>
+
+        <!-- BOTÓN VOLVER AL INICIO -->
+        <div class="back-to-top">
+          <a href="index.html" class="back-btn">Volver al inicio</a>
+        </div>
+      </section>
     </main>
 
-    <!-- Controles de color ocultos (para que dynamic.js funcione igual) -->
+    <!-- CONTROLES Y CURSOR -->
     <div class="color-controls">
       <button class="color-btn active" data-scheme="1">Scheme 1</button>
       <button class="color-btn" data-scheme="2">Scheme 2</button>
@@ -76,8 +94,6 @@
         <h3 class="color-adjuster-title">Color Adjuster</h3>
         <button class="color-adjuster-close" id="closeAdjusterBtn">×</button>
       </div>
-
-      <!-- pickers omitidos por brevedad; se reutilizan estilos aunque estén ocultos -->
     </div>
 
     <div class="custom-cursor" id="customCursor"></div>
