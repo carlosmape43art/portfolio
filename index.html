@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Carlos Mape</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Local styles (relative to this file) -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <main class="page">
+      <!-- HERO -->
+      <section class="hero" aria-label="Hero">
+        <h1 class="heading option1">CARLOS MAPE</h1>
+        <button
+          class="scroll-indicator"
+          type="button"
+          aria-label="Desplazar hacia la sección Sobre mí"
+          data-target="#sobre-mi"
+        >
+          <span class="scroll-indicator__label">Scroll</span>
+          <span class="scroll-indicator__icon"></span>
+        </button>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="content-section" id="sobre-mi" aria-label="Sobre mí">
+        <div class="content-card">
+          <h2 class="section-title">Sobre mí</h2>
+          <p class="section-text">
+            Soy un creativo apasionado por capturar momentos únicos y diseñar experiencias visuales impactantes. 
+            Con varios años de experiencia en fotografía y diseño gráfico, he trabajado con marcas reconocidas 
+            para transformar sus visiones en realidad.  Mi enfoque combina técnica profesional con una perspectiva artística, siempre buscando destacar 
+            la esencia de cada proyecto y conectar con la audiencia de manera significativa.
+          </p>
+        </div>
+      </section>
+
+      <!-- PORTRAIT IMAGE -->
+      <section class="content-section content-section--image" aria-label="Retrato de Carlos Mape">
+        <div class="content-card content-card--image">
+          <img
+            class="profile-image"
+            src="assets/MI.jpg"
+            alt="Retrato de Carlos Mape trabajando en un proyecto creativo"
+          />
+        </div>
+      </section>
+
+      <!-- WORKS -->
+      <section class="content-section works-section" aria-label="Conoce mis trabajos">
+        <div class="content-card">
+          <h2 class="section-title">Conoce mis trabajos</h2>
+          <p class="section-text section-text--subtle">
+            Explora una selección de proyectos de fotografía y diseño.
+          </p>
+
+          <div class="work-cards">
+            <a href="foto.html" class="work-card">
+              <div class="work-card__media">
+                <img
+                  src="assets/FOTOGRAFIAS.jpg"
+                  alt="Galería de fotografías de Carlos Mape"
+                />
+              </div>
+              <div class="work-card__body">
+                <p class="work-card__text">
+                  Capturando momentos únicos.
+                </p>
+              </div>
+            </a>
+
+            <a href="diseno.html" class="work-card">
+              <div class="work-card__media">
+                <img
+                  src="assets/DISENOS.jpg"
+                  alt="Selección de diseños gráficos de Carlos Mape"
+                />
+              </div>
+              <div class="work-card__body">
+                <p class="work-card__text">
+                  Diseñando para generar impacto con las imagenes
+                </p>
+              </div>
+            </a>
+
+          </div>
+        </div>
+        <div class="works-cta">
+          <a href="contact.html" class="contact-btn">Contacto</a>
+        </div>
+      </section>
+    </main>
+  
+    <!-- Color Scheme Controls -->
+    <div class="color-controls">
+      <button class="color-btn active" data-scheme="1">Scheme 1</button>
+      <button class="color-btn" data-scheme="2">Scheme 2</button>
+      <button class="color-btn" data-scheme="3">Scheme 3</button>
+      <button class="color-btn" data-scheme="4">Scheme 4</button>
+      <button class="color-btn" data-scheme="5">Scheme 5</button>
+    </div>
+  
+    <!-- Color Adjuster Toggle Button -->
+    <button class="toggle-adjuster-btn" id="toggleAdjusterBtn">Adjust Colors</button>
+  
+    <!-- Color Adjuster Panel -->
+    <div class="color-adjuster-panel" id="colorAdjusterPanel">
+      <div class="color-adjuster-header">
+        <h3 class="color-adjuster-title">Color Adjuster</h3>
+        <button class="color-adjuster-close" id="closeAdjusterBtn">×</button>
+      </div>
+  
+      <div class="color-picker-group">
+        <div class="color-picker-label">
+          <span>Color 1</span>
+        </div>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-picker-input" id="colorPicker1" data-color="1">
+          <input type="text" class="color-value-display" id="colorValue1" readonly>
+          <button class="copy-btn" data-copy="1">Copy</button>
+        </div>
+      </div>
+  
+      <div class="color-picker-group">
+        <div class="color-picker-label">
+          <span>Color 2</span>
+        </div>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-picker-input" id="colorPicker2" data-color="2">
+          <input type="text" class="color-value-display" id="colorValue2" readonly>
+          <button class="copy-btn" data-copy="2">Copy</button>
+        </div>
+      </div>
+  
+      <div class="color-picker-group">
+        <div class="color-picker-label">
+          <span>Color 3</span>
+        </div>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-picker-input" id="colorPicker3" data-color="3">
+          <input type="text" class="color-value-display" id="colorValue3" readonly>
+          <button class="copy-btn" data-copy="3">Copy</button>
+        </div>
+      </div>
+  
+      <div class="color-picker-group">
+        <div class="color-picker-label">
+          <span>Color 4</span>
+        </div>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-picker-input" id="colorPicker4" data-color="4">
+          <input type="text" class="color-value-display" id="colorValue4" readonly>
+          <button class="copy-btn" data-copy="4">Copy</button>
+        </div>
+      </div>
+  
+      <div class="color-picker-group">
+        <div class="color-picker-label">
+          <span>Color 5</span>
+        </div>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-picker-input" id="colorPicker5" data-color="5">
+          <input type="text" class="color-value-display" id="colorValue5" readonly>
+          <button class="copy-btn" data-copy="5">Copy</button>
+        </div>
+      </div>
+  
+      <div class="color-picker-group">
+        <div class="color-picker-label">
+          <span>Color 6</span>
+        </div>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-picker-input" id="colorPicker6" data-color="6">
+          <input type="text" class="color-value-display" id="colorValue6" readonly>
+          <button class="copy-btn" data-copy="6">Copy</button>
+        </div>
+      </div>
+  
+      <div class="color-adjuster-actions">
+        <button class="export-btn" id="exportAllBtn">Export All Colors</button>
+      </div>
+    </div>
+  
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <!-- Three.js must load before dynamic.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="dynamic.js"></script>
+  </body>
+</html>
