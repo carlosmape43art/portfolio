@@ -13,10 +13,154 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Minimal lightbox styles (texto centrado + fondo borroso de la imagen) -->
+    <style>
+      /* minimal overlay */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.55);
+        z-index: 9999;
+        padding: 20px;
+      }
+      .lightbox.open { display: flex; }
+
+      .lightbox-inner {
+        position: relative;
+        width: min(900px, 96vw);
+        border-radius: 12px;
+        overflow: hidden;
+
+        /* cambiado a flex column para apilar caption, imagen y botón */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+      }
+
+      /* blurred background using the clicked image */
+      .lightbox-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: blur(18px) saturate(105%);
+        transform: scale(1.06);
+        opacity: 0.95;
+        z-index: 1;
+      }
+
+      /* subtle dark layer for contrast */
+      .lightbox-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+        z-index: 2;
+      }
+
+      /* centered caption only (no image shown) */
+      .lightbox-caption {
+        position: relative;
+        z-index: 3;
+        color: #fff;
+        padding: 20px;
+        margin: 0; /* margen controlado abajo */
+        border-radius: 10px;
+        text-align: center;
+        width: 100%;
+        max-width: 920px;
+        font-size: clamp(15px, 2.2vw, 20px);
+        line-height: 1.45;
+        background: rgba(0,0,0,0.28);
+        backdrop-filter: blur(3px);
+        word-wrap: break-word;
+        white-space: pre-wrap;
+      }
+
+      .lightbox-caption + .lightbox-image { margin-top: 14px; }
+
+      .lightbox-image {
+        position: relative;
+        z-index: 3;
+        max-width: 95%;
+        max-height: 70vh;
+        border-radius: 8px;
+        display: none;
+        object-fit: contain;
+        box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+      }
+
+      /* toggle button now en flujo (debajo del caption / imagen) */
+      .lightbox-toggle {
+        position: relative;
+        z-index: 4;
+        display: inline-block;
+        margin-top: 14px;
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 5;
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* when in image-mode: hide caption and bg blur, show the image */
+      .lightbox.image-mode .lightbox-bg,
+      .lightbox.image-mode .lightbox-overlay,
+      .lightbox.image-mode .lightbox-caption {
+        display: none !important;
+      }
+
+      .lightbox.image-mode .lightbox-image {
+        display: block;
+      }
+
+      @media (max-width:480px){
+        .lightbox-caption { font-size: 14px; padding: 14px; }
+        .lightbox-toggle { padding: 6px 10px; font-size: 12px; }
+      }
+    </style>
   </head>
-  <div id="lightbox" class="lightbox">
-    <span class="lightbox-close">&times;</span>
-    <img class="lightbox-img" src="" alt="Imagen ampliada">
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Descripción del diseño">
+    <div class="lightbox-inner" role="document">
+      <div class="lightbox-bg" aria-hidden="true"></div>
+      <div class="lightbox-overlay" aria-hidden="true"></div>
+
+      <!-- caption (texto) -->
+      <div class="lightbox-caption" aria-live="polite"></div>
+
+      <!-- image element (hidden inicialmente, shown cuando el usuario pide ver la imagen) -->
+      <img class="lightbox-image" src="" alt="Vista ampliada">
+
+      <!-- toggle: por defecto "Ver imagen" cambia a "Ver texto" en modo imagen -->
+      <button class="lightbox-toggle" aria-label="Ver imagen">Ver imagen</button>
+
+      <button class="lightbox-close" aria-label="Cerrar">×</button>
+    </div>
   </div>
   
   <body>
@@ -44,73 +188,101 @@
             <!-- 8 cards de diseños -->
             <a href="assets/1.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/1.jpg" alt="Diseño 1 de Carlos Mape" />
+                <img src="assets/1.jpg" alt="Grecas — COSTUMBRES" data-description="GRECAS: COSTUMBRES - Poster. Fusiona la identidad de barrio con la estética urbana, usando el código 28400 y el escudo para marcar territorio. La composición de doble imagen muestra al artista entre la reflexión y la vida en la calle, capturando la esencia de lo cotidiano. Es un diseño directo que busca la conexión inmediata con sus raíces y su gente." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 1</h3>
+                <h3 class="work-card__title">Diseño 1 — GRECAS</h3>
               </div>
             </a>
 
             <a href="assets/2.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/2.jpg" alt="Diseño 2 de Carlos Mape" />
+                <img src="assets/2.jpg" alt="OMAR — EL DURO" data-description="OMAR 'EL DURO' - Visual Concept. Un diseño que representa la dualidad del luchador: la calma y el enfoque mental frente a la explosividad en el ring. He querido plasmar sus raíces y la fuerza del Teamm Mario Padilla en una sola pieza. Sangre, sudor y respeto." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 2</h3>
+                <h3 class="work-card__title">Diseño 2 — OMAR</h3>
               </div>
             </a>
 
             <a href="assets/3.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/3.jpg" alt="Diseño 3 de Carlos Mape" />
+                <img src="assets/3.jpg" alt="ROLEX — Poster" data-description="ROLEX - Poster. El equilibrio perfecto entre un buen traje y un reloj con personalidad. He creado este diseño para mostrar que el Rolex Submariner no es solo una máquina del tiempo, sino el compañero ideal para esos momentos donde quieres destacar con clase pero sin complicaciones. Un toque de azul, un poco de brillo y mucha elegancia para el día a día." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 3</h3>
+                <h3 class="work-card__title">Diseño 3 — ROLEX</h3>
               </div>
             </a>
 
             <a href="assets/4.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/4.jpg" alt="Diseño 4 de Carlos Mape" />
+                <img src="assets/4.jpg" alt="RUBII — JEALOUSY" data-description="JEALOUSY - Poster. Para este diseño busqué materializar la dualidad de los celos: el brillo y el deseo frente a la distorsión emocional. El uso de texturas metálicas y una tipografía robusta en dorado busca elevar la estética urbana a un plano editorial. Un juego de contrastes donde la seguridad de la artista corta el caos del fondo." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 4</h3>
+                <h3 class="work-card__title">Diseño 4 — RUBII</h3>
               </div>
             </a>
 
             <a href="assets/5.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/5.jpg" alt="Diseño 5 de Carlos Mape" />
+                <img src="assets/5.jpg" alt="ZAPA — AETHER" data-description="AETHER - Poster. Este es un experimento de diseño donde exploré la fusión de la creatividad humana con la inteligencia artificial. La zapatilla NEONX AETHER-01 fue creada completamente por IA, y el resto de la composición, incluyendo la integración del texto y el estilo visual, fue obra mía. Quise emular una publicación de anuncio de zapatilla con una estética futurista y tecnológica." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 5</h3>
+                <h3 class="work-card__title">Diseño 5 — ZAPA</h3>
               </div>
             </a>
 
             <a href="assets/6.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/6.jpg" alt="Diseño 6 de Carlos Mape" />
+                <img src="assets/6.jpg" alt="ZAPA 2 — AIR MAX" data-description="AIR MAX - Procreate. Este es mi primer trabajo en Procreate, donde utilicé la silueta de la Air Max 90 para explorar texturas de spray y una paleta urbana llena de energía. El portal púrpura representa la transición al lienzo digital, capturando el instante en que la zapatilla cobra vida y emerge de la sombra hacia el color." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 6</h3>
+                <h3 class="work-card__title">Diseño 6 — ZAPA 2</h3>
               </div>
             </a>
 
             <a href="assets/7.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/7.jpg" alt="Diseño 7 de Carlos Mape" />
+                <img src="assets/7.jpg" alt="PRINCIPITO — Composición" data-description="EL PRINCIPITO. Composición abstracta realizada en Photoshop basada en el universo de El Principito. Elementos espaciales y figuras simbólicas que juegan con la escala y el espacio para crear una pieza centrada en la imaginación y la aventura." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 7</h3>
+                <h3 class="work-card__title">Diseño 7 — PRINCIPITO</h3>
               </div>
             </a>
 
             <a href="assets/8.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/8.jpg" alt="Diseño 8 de Carlos Mape" />
+                <img src="assets/8.jpg" alt="PRADA — Poster" data-description="PRADA - Poster. Exploración de la herencia técnica de Prada, donde la sastrería clásica italiana se encuentra con la innovación textil del futuro. Bloques de texto asimétricos y minimalismo clínico para presentar la colección como un informe de investigación del lujo." />
               </div>
               <div class="work-card__body">
-                <h3 class="work-card__title">Diseño 8</h3>
+                <h3 class="work-card__title">Diseño 8 — PRADA</h3>
+              </div>
+            </a>
+
+            <!-- NUEVAS 3 IMÁGENES añadidas: DIOR, SALESIANOS, EXTRARRADIO -->
+            <a href="assets/dior.jpg" class="work-card gallery-card" target="_blank">
+              <div class="work-card__media">
+                <img src="assets/DIOR.jpg" alt="DIOR — Rouge Dior" data-description="DIOR: ROUGE DIOR — Menos pose, más actitud. He diseñado esta propuesta para romper el molde de la perfección rígida y capturar la espontaneidad pura. El lujo también puede ser divertido, rebelde y auténtico; por eso combiné la elegancia clásica de la tipografía de Dior con una expresión vibrante que grita libertad. No es solo un labial, es la energía de sentirte tú misma sin filtros. ¿Lista para ser el nuevo icono?" />
+              </div>
+              <div class="work-card__body">
+                <h3 class="work-card__title">Diseño 9 — DIOR</h3>
+              </div>
+            </a>
+
+            <a href="assets/salesianos.jpg" class="work-card gallery-card" target="_blank">
+              <div class="work-card__media">
+                <img src="assets/SALESIANOS.jpg" alt="SALESIANOS — 125 años" data-description="SALESIANOS 125 años. Me hace mucha ilusión participar en el concurso del 125 aniversario de Salesianos Atocha con esta propuesta que he diseñado con mucho amor y cariño. He intentado reflejar toda nuestra historia y alegría en este logo, y espero que les guste tanto como a mí me ha gustado crearlo para nuestra casa." />
+              </div>
+              <div class="work-card__body">
+                <h3 class="work-card__title">Diseño 10 — SALESIANOS</h3>
+              </div>
+            </a>
+
+            <a href="assets/extrarradio.jpg" class="work-card gallery-card" target="_blank">
+              <div class="work-card__media">
+                <img src="assets/EXTRARRADIO.jpg" alt="EXTRARRADIO — Poster" data-description="EXTRARRADIO - Poster. Un homenaje visual a la esencia de la periferia. Para este diseño de Natos y Waor y Midas, busqué capturar esa estética cruda del barrio: el rojo como bandera, el grano de la foto antigua y la unión de tres referentes sobre el paisaje de bloques. Representando el sonido de los que vienen de fuera del centro." />
+              </div>
+              <div class="work-card__body">
+                <h3 class="work-card__title">Diseño 11 — EXTRARRADIO</h3>
               </div>
             </a>
           </div>
@@ -147,42 +319,80 @@
     <script src="dynamic.js"></script>
   </body>
   <script>
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.querySelector('.lightbox-img');
-    const closeBtn = document.querySelector('.lightbox-close');
-  
-    // Seleccionamos todas las imágenes de la galería
-    const galleryImages = document.querySelectorAll('.gallery-card img');
-  
-    galleryImages.forEach(img => {
-      img.addEventListener('click', e => {
-        e.preventDefault(); // Evita abrir en otra pestaña
-        lightbox.style.display = 'flex';
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
+    // Minimal lightbox behaviour — texto centrado y fondo blur; toggle para ver imagen completa
+    (function(){
+      const lightbox = document.getElementById('lightbox');
+      const lightboxBg = lightbox.querySelector('.lightbox-bg');
+      const caption = lightbox.querySelector('.lightbox-caption');
+      const closeBtn = lightbox.querySelector('.lightbox-close');
+      const toggleBtn = lightbox.querySelector('.lightbox-toggle');
+      const bigImg = lightbox.querySelector('.lightbox-image');
+
+      const imgs = document.querySelectorAll('.gallery-card img');
+
+      imgs.forEach(img=>{
+        img.addEventListener('click', e=>{
+          e.preventDefault();
+          const src = img.src;
+          const text = img.dataset.description || img.alt || 'Descripción no disponible';
+
+          // set content
+          lightboxBg.style.backgroundImage = `url('${src}')`;
+          bigImg.src = src;
+          bigImg.alt = img.alt || '';
+          caption.textContent = text;
+
+          // open in "texto" mode by default
+          lightbox.classList.remove('image-mode');
+          toggleBtn.textContent = 'Ver imagen';
+          toggleBtn.setAttribute('aria-label','Ver imagen');
+
+          lightbox.classList.add('open');
+          lightbox.setAttribute('aria-hidden','false');
+
+          // prevent background scroll
+          document.documentElement.style.overflow = 'hidden';
+          document.body.style.overflow = 'hidden';
+
+          // focus close for accessibility
+          closeBtn.focus();
+        });
       });
-    });
-  
-    // Cerrar al hacer click en la X
-    closeBtn.addEventListener('click', () => {
-      lightbox.style.display = 'none';
-      lightboxImg.src = '';
-    });
-  
-    // Cerrar al hacer click fuera de la imagen
-    lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) {
-        lightbox.style.display = 'none';
-        lightboxImg.src = '';
+
+      // toggle between text and image-only view
+      toggleBtn.addEventListener('click', ()=>{
+        const isImageMode = lightbox.classList.toggle('image-mode');
+        if (isImageMode) {
+          toggleBtn.textContent = 'Ver texto';
+          toggleBtn.setAttribute('aria-label','Ver texto');
+          // move focus to image for keyboard users
+          bigImg.focus && bigImg.focus();
+        } else {
+          toggleBtn.textContent = 'Ver imagen';
+          toggleBtn.setAttribute('aria-label','Ver imagen');
+          closeBtn.focus();
+        }
+      });
+
+      function closeLB(){
+        lightbox.classList.remove('open','image-mode');
+        lightbox.setAttribute('aria-hidden','true');
+        lightboxBg.style.backgroundImage = '';
+        caption.textContent = '';
+        bigImg.src = '';
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
       }
-    });
-  
-    // Cerrar con la tecla ESC
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        lightbox.style.display = 'none';
-        lightboxImg.src = '';
-      }
-    });
+
+      closeBtn.addEventListener('click', closeLB);
+
+      lightbox.addEventListener('click', e=>{
+        if (e.target === lightbox || e.target.classList.contains('lightbox-overlay')) closeLB();
+      });
+
+      document.addEventListener('keydown', e=>{
+        if (e.key === 'Escape') closeLB();
+      });
+    })();
   </script>
 </html>

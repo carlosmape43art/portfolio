@@ -13,11 +13,144 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Reemplazo: estilos del lightbox (mismo comportamiento que en diseno.html) -->
+    <style>
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.55);
+        z-index: 9999;
+        padding: 20px;
+      }
+      .lightbox.open { display: flex; }
+
+      .lightbox-inner {
+        position: relative;
+        width: min(900px, 95vw);
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: transparent;
+      }
+
+      .lightbox-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: blur(18px) saturate(105%);
+        transform: scale(1.06);
+        opacity: 0.95;
+        z-index: 1;
+      }
+
+      .lightbox-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+        z-index: 2;
+      }
+
+      .lightbox-caption {
+        position: relative;
+        z-index: 3;
+        color: #fff;
+        padding: 20px;
+        margin: 0;
+        border-radius: 10px;
+        text-align: center;
+        width: 100%;
+        max-width: 920px;
+        font-size: clamp(15px, 2.2vw, 20px);
+        line-height: 1.45;
+        background: rgba(0,0,0,0.28);
+        backdrop-filter: blur(3px);
+        word-wrap: break-word;
+        white-space: pre-wrap;
+      }
+
+      .lightbox-image {
+        position: relative;
+        z-index: 3;
+        max-width: 95%;
+        max-height: 70vh;
+        border-radius: 8px;
+        display: none;
+        object-fit: contain;
+        box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+        margin-top: 14px;
+      }
+
+      .lightbox-toggle {
+        position: relative;
+        z-index: 4;
+        display: inline-block;
+        margin-top: 14px;
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 5;
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* image-mode: ocultar texto y fondo borroso, mostrar la imagen */
+      .lightbox.image-mode .lightbox-bg,
+      .lightbox.image-mode .lightbox-overlay,
+      .lightbox.image-mode .lightbox-caption {
+        display: none !important;
+      }
+
+      .lightbox.image-mode .lightbox-image {
+        display: block;
+      }
+
+      @media (max-width:480px){
+        .lightbox-caption { font-size: 14px; padding: 14px; }
+        .lightbox-toggle { padding: 6px 10px; font-size: 12px; }
+      }
+    </style>
   </head>
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox">
-  <span class="lightbox-close">&times;</span>
-  <img class="lightbox-img" src="" alt="Imagen ampliada">
+<!-- Reemplazo: lightbox minimal con toggle (texto / imagen) -->
+<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Descripción de la fotografía">
+  <div class="lightbox-inner" role="document">
+    <div class="lightbox-bg" aria-hidden="true"></div>
+    <div class="lightbox-overlay" aria-hidden="true"></div>
+
+    <div class="lightbox-caption" aria-live="polite"></div>
+
+    <img class="lightbox-image" src="" alt="Vista ampliada">
+
+    <button class="lightbox-toggle" aria-label="Ver imagen">Ver imagen</button>
+    <button class="lightbox-close" aria-label="Cerrar visor">&times;</button>
+  </div>
 </div>
 
   <body>
@@ -42,10 +175,10 @@
           <h2 class="section-title">Selección de fotografías</h2>
 
           <div class="gallery-grid">
-            <!-- 8 cards de fotografías -->
+            <!-- 8 cards de fotografías (añadidas descripciones en data-description) -->
             <a href="assets/foto1.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto1.jpg" alt="Fotografía 1 de Carlos Mape" />
+                <img src="assets/foto1.jpg" alt="Flores" data-description=" Esta foto rompe con todo lo demás. Es pura energía y color. El contraste entre el rosa chillón y el cielo azul me dice que buscas esos 'chispazos' de vida que resaltan incluso cuando hay una valla metálica de por medio. Es ese momento de desconexión visual." />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 1</h3>
@@ -54,7 +187,7 @@
 
             <a href="assets/foto2.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto2.jpg" alt="Fotografía 2 de Carlos Mape" />
+                <img src="assets/foto2.jpg" alt="CHICO DEL CIELO OSCURO" data-description="Queriendo transmitir algo mucho más introspectivo. Esa mirada baja y el cielo encapotado transmiten una soledad muy de ciudad. Es la típica sensación de estar rodeado de gente pero metido en tu propio mundo. " />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 2</h3>
@@ -63,7 +196,7 @@
 
             <a href="assets/foto3.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto3.jpg" alt="Fotografía 3 de Carlos Mape" />
+                <img src="assets/foto3.jpg" alt="Chica nike" data-description="Esta imagen es pura actitud. Ese gesto de taparse con el brazo, dejando solo los ojos a la vista, juega con esa mezcla de querer pasar desapercibido pero a la vez dejar claro quién eres a través de la marca. Es una mirada que te desafía." />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 3</h3>
@@ -72,7 +205,7 @@
 
             <a href="assets/foto4.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto4.jpg" alt="Fotografía 4 de Carlos Mape" />
+                <img src="assets/foto4.jpg" alt="Plano Ojos" data-description="Esta toma es un ejercicio de macro-fotografía de retrato. Está realizada con una iluminación de estudio muy controlada para resaltar la textura de la piel por encima de todo. El enfoque es crítico en los iris, pero lo que realmente importa aquí es la honestidad del detalle anatómico: cada peca, poro y la textura natural de las cejas se convierten en el mapa de identidad de la persona. No hay suavizado, solo la cruda realidad de los rasgos capturados a centímetros de distancia, buscando esa conexión directa y sin filtros a través de la mirada." />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 4</h3>
@@ -81,7 +214,7 @@
 
             <a href="assets/foto5.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto5.jpg" alt="Fotografía 5 de Carlos Mape" />
+                <img src="assets/foto5.jpg" alt="Silueta del fotografo" data-description="Esta toma es pura gestión de la exposición,obligando a que el sujeto principal (el fotógrafo) caiga en subexposición total, convirtiéndose en una masa negra sin detalle. " />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 5</h3>
@@ -90,7 +223,7 @@
 
             <a href="assets/foto6.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto6.jpg" alt="Fotografía 6 de Carlos Mape" />
+                <img src="assets/foto6.jpg" alt="Zapas" data-description="Es el cierre perfecto para la estética de la cuadrícula. Representa la obsesión por el detalle y el estilo callejero. Las zapatillas aquí no son solo calzado, son trofeos, una forma de lenguaje dentro de la cultura urbana." />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 6</h3>
@@ -99,7 +232,7 @@
 
             <a href="assets/foto7.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto7.jpg" alt="Fotografía 7 de Carlos Mape" />
+                <img src="assets/foto7.jpg" alt="Grafitero" data-description="Foto de acción nocturna con flash directo para congelar el movimiento; prioriza el crudo contraste y la nitidez del plumífero sobre la estética del fondo." />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 7</h3>
@@ -108,7 +241,7 @@
 
             <a href="assets/foto8.jpg" class="work-card gallery-card" target="_blank">
               <div class="work-card__media">
-                <img src="assets/foto8.jpg" alt="Fotografía 8 de Carlos Mape" />
+                <img src="assets/foto8.jpg" alt="Rejas" data-description="Retrato en blanco y negro con diafragma cerrado para mantener enfocadas tanto la reja como el rostro, acentuando la geometría y el encierro.." />
               </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">Fotografía 8</h3>
@@ -146,45 +279,79 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="dynamic.js"></script>
-  </body>
-  <script>
+</body>
+<script>
+  // Aplicar misma lógica que en diseno.html: abrir texto primero, toggle para ver imagen completa
+  (function(){
     const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.querySelector('.lightbox-img');
-    const closeBtn = document.querySelector('.lightbox-close');
-  
-    // Seleccionamos todas las imágenes de la galería
-    const galleryImages = document.querySelectorAll('.gallery-card img');
-  
-    galleryImages.forEach(img => {
-      img.addEventListener('click', e => {
-        e.preventDefault(); // Evita abrir en otra pestaña
-        lightbox.style.display = 'flex';
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
+    const lightboxBg = lightbox.querySelector('.lightbox-bg');
+    const caption = lightbox.querySelector('.lightbox-caption');
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+    const toggleBtn = lightbox.querySelector('.lightbox-toggle');
+    const bigImg = lightbox.querySelector('.lightbox-image');
+
+    const imgs = document.querySelectorAll('.gallery-card img');
+
+    imgs.forEach(img=>{
+      img.addEventListener('click', e=>{
+        e.preventDefault();
+        const src = img.src;
+        const text = img.dataset.description || img.alt || 'Descripción no disponible';
+
+        lightboxBg.style.backgroundImage = `url('${src}')`;
+        bigImg.src = src;
+        bigImg.alt = img.alt || '';
+        caption.textContent = text;
+
+        // abrir en modo texto por defecto
+        lightbox.classList.remove('image-mode');
+        toggleBtn.textContent = 'Ver imagen';
+        toggleBtn.setAttribute('aria-label','Ver imagen');
+
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden','false');
+
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+
+        closeBtn.focus();
       });
     });
-  
-    // Cerrar al hacer click en la X
-    closeBtn.addEventListener('click', () => {
-      lightbox.style.display = 'none';
-      lightboxImg.src = '';
-    });
-  
-    // Cerrar al hacer click fuera de la imagen
-    lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) {
-        lightbox.style.display = 'none';
-        lightboxImg.src = '';
+
+    // alternar entre texto e imagen
+    toggleBtn.addEventListener('click', ()=>{
+      const isImageMode = lightbox.classList.toggle('image-mode');
+      if (isImageMode) {
+        toggleBtn.textContent = 'Ver texto';
+        toggleBtn.setAttribute('aria-label','Ver texto');
+        bigImg.focus && bigImg.focus();
+      } else {
+        toggleBtn.textContent = 'Ver imagen';
+        toggleBtn.setAttribute('aria-label','Ver imagen');
+        closeBtn.focus();
       }
     });
-  
-    // Cerrar con la tecla ESC
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        lightbox.style.display = 'none';
-        lightboxImg.src = '';
-      }
+
+    function closeLB(){
+      lightbox.classList.remove('open','image-mode');
+      lightbox.setAttribute('aria-hidden','true');
+      lightboxBg.style.backgroundImage = '';
+      caption.textContent = '';
+      bigImg.src = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeLB);
+
+    lightbox.addEventListener('click', e=>{
+      if (e.target === lightbox || e.target.classList.contains('lightbox-overlay')) closeLB();
     });
-  </script>
+
+    document.addEventListener('keydown', e=>{
+      if (e.key === 'Escape') closeLB();
+    });
+  })();
+</script>
   
 </html>
